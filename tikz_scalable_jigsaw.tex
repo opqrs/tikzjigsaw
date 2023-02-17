@@ -1,0 +1,36 @@
+\documentclass[a4paper]{article}
+
+% based on https://tex.stackexchange.com/a/446306
+% by samcarter_is_at_topanswers.xyz
+
+\usepackage{tikz}
+
+\begin{document}
+
+\tikzset{pics/.cd,
+magicjigsaw/.style args={#1/#2 and #3/#4/#5/#6 sz #7 col #8 text #9}{
+    code={%
+\draw[thick, black, fill=#8] (-#1,-0.35*#7) to[out=90,in={90+#3*45}] ({-#1+0.5*#3*#7},-0.45*#7)
+arc({-135-(#3-1)*45}:{(#3-1)*180+135+(#3-1)*45}:{0.6*#7} and {0.45*sqrt(2)*#7})
+to[out=-90-#3*45,in=-90] (-#1,0.35*#7) |- (-0.35*#7,#2)
+to[out=0,in={0+#4*45}] (-0.45*#7,#2-0.5*#4*#7)
+arc(180-#4*45:{(#4+1)*180+#4*45}:{0.45*sqrt(2)*#7} and 0.6*#7)
+to[out=-180-#4*45,in=180] (0.35*#7,#2) -| (#1,0.35*#7)
+to[out=-90,in=270+#5*45] (#1-#5*0.5*#7,0.45*#7)
+arc(90-#5*45:{(#5+1)*180-90+#5*45}:0.6*#7 and {0.45*sqrt(2)*#7})
+to[out=90-#5*45,in=90] (#1,-0.35*#7) |- (0.35*#7,-#2)
+to[out=180,in=-180+#6*45] (0.45*#7,-#2+#6*0.5*#7)
+arc(-#6*45:{(#6-1)*180+180+#6*45}:{0.45*sqrt(2)*#7} and 0.6*#7)
+to[out=-#6*45,in=0] (-0.35*#7,-#2) -| cycle;
+\node[align=left] at (0,0) {#9};
+}}
+}
+
+
+\begin{tikzpicture}
+\draw (0,6) pic{magicjigsaw=2/2 and 1/-1/1/1 sz 0.1 col white text {hello \\ world}};
+\draw (0,0) pic{magicjigsaw=2/2 and 1/-1/1/1 sz 0.25 col white text {hello \\ world}};
+\draw (6,3) pic{magicjigsaw=2/2 and -1/1/-1/1 sz 0.5 col red!30 text {good \\ bye}};
+\end{tikzpicture}
+
+\end{document}
